@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: nealv
- * Date: 05/01/15
- * Time: 14:39
- */
 
-namespace emuse\BehatHTMLFormatter\Classes;
-
+namespace Samnela\BehatHTMLFormatter\Classes;
 
 class Scenario
 {
@@ -54,7 +47,7 @@ class Scenario
 
     public function setScreenshotName($scenarioName)
     {
-        $this->screenshotName = preg_replace('/\W/', '', $scenarioName) . '.png';
+        $this->screenshotName = preg_replace('/\W/', '', $scenarioName).'.png';
     }
 
     /**
@@ -72,6 +65,7 @@ class Scenario
     {
         $this->loopCount = $loopCount;
     }
+
     /**
      * @return mixed
      */
@@ -105,7 +99,7 @@ class Scenario
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isPassed()
     {
@@ -113,7 +107,7 @@ class Scenario
     }
 
     /**
-     * @param boolean $passed
+     * @param bool $passed
      */
     public function setPassed($passed)
     {
@@ -163,6 +157,6 @@ class Scenario
     public function getLoopSize()
     {
         //behat
-        return $this->loopCount > 0 ? sizeof($this->steps)/$this->loopCount : sizeof($this->steps);
+        return $this->loopCount > 0 ? sizeof($this->steps) / $this->loopCount : sizeof($this->steps);
     }
 }

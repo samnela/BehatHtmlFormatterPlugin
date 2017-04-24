@@ -1,23 +1,25 @@
 <?php
 /**
- * Behat2 renderer for Behat report
+ * Behat2 renderer for Behat report.
+ *
  * @author DaSayan <glennwall@free.fr>
  */
 
-namespace emuse\BehatHTMLFormatter\Renderer;
+namespace Samnela\BehatHTMLFormatter\Renderer;
 
 use Behat\Gherkin\Node\TableNode;
 
-class Behat2Renderer implements RendererInterface {
-
+class Behat2Renderer implements RendererInterface
+{
     /**
      * Renders before an exercice.
+     *
      * @param object : BehatHTMLFormatter object
-     * @return string  : HTML generated
+     *
+     * @return string : HTML generated
      */
     public function renderBeforeExercise($obj)
     {
-
         $print = "<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>
         <html xmlns ='http://www.w3.org/1999/xhtml'>
         <head>
@@ -32,53 +34,55 @@ class Behat2Renderer implements RendererInterface {
 
     /**
      * Renders after an exercice.
+     *
      * @param object : BehatHTMLFormatter object
-     * @return string  : HTML generated
+     *
+     * @return string : HTML generated
      */
     public function renderAfterExercise($obj)
     {
         //--> features results
         $strFeatPassed = '';
-        if(count($obj->getPassedFeatures()) > 0) {
+        if (count($obj->getPassedFeatures()) > 0) {
             $strFeatPassed = ' <strong class="passed">'.count($obj->getPassedFeatures()).' success</strong>';
         }
 
         $strFeatFailed = '';
         $sumRes = 'passed';
-        if(count($obj->getFailedFeatures()) > 0) {
+        if (count($obj->getFailedFeatures()) > 0) {
             $strFeatFailed = ' <strong class="failed">'.count($obj->getFailedFeatures()).' fail</strong>';
             $sumRes = 'failed';
         }
 
         //--> scenarios results
         $strScePassed = '';
-        if(count($obj->getPassedScenarios()) > 0) {
+        if (count($obj->getPassedScenarios()) > 0) {
             $strScePassed = ' <strong class="passed">'.count($obj->getPassedScenarios()).' success</strong>';
         }
 
         $strSceFailed = '';
-        if(count($obj->getFailedScenarios()) > 0) {
+        if (count($obj->getFailedScenarios()) > 0) {
             $strSceFailed = ' <strong class="failed">'.count($obj->getFailedScenarios()).' fail</strong>';
         }
 
         //--> steps results
         $strStepsPassed = '';
-        if(count($obj->getPassedSteps()) > 0) {
+        if (count($obj->getPassedSteps()) > 0) {
             $strStepsPassed = ' <strong class="passed">'.count($obj->getPassedSteps()).' success</strong>';
         }
 
         $strStepsPending = '';
-        if(count($obj->getPendingSteps()) > 0) {
+        if (count($obj->getPendingSteps()) > 0) {
             $strStepsPending = ' <strong class="pending">'.count($obj->getPendingSteps()).' pending</strong>';
         }
 
         $strStepsSkipped = '';
-        if(count($obj->getSkippedSteps()) > 0) {
+        if (count($obj->getSkippedSteps()) > 0) {
             $strStepsSkipped = ' <strong class="skipped">'.count($obj->getSkippedSteps()).' skipped</strong>';
         }
 
         $strStepsFailed = '';
-        if(count($obj->getFailedSteps()) > 0) {
+        if (count($obj->getFailedSteps()) > 0) {
             $strStepsFailed = ' <strong class="failed">'.count($obj->getFailedSteps()).' fail</strong>';
         }
 
@@ -89,8 +93,8 @@ class Behat2Renderer implements RendererInterface {
 
         //list of pending steps to display
         $strPendingList = '';
-        if(count($obj->getPendingSteps()) > 0) {
-            foreach($obj->getPendingSteps() as $pendingStep) {
+        if (count($obj->getPendingSteps()) > 0) {
+            foreach ($obj->getPendingSteps() as $pendingStep) {
                 $strPendingList .= '
                     <li>'.$pendingStep->getKeyword().' '.htmlentities($pendingStep->getText()).'</li>';
             }
@@ -127,13 +131,14 @@ class Behat2Renderer implements RendererInterface {
 </html>';
 
         return $print;
-
     }
 
     /**
      * Renders before a suite.
+     *
      * @param object : BehatHTMLFormatter object
-     * @return string  : HTML generated
+     *
+     * @return string : HTML generated
      */
     public function renderBeforeSuite($obj)
     {
@@ -141,13 +146,14 @@ class Behat2Renderer implements RendererInterface {
         <div class="suite">Suite : '.$obj->getCurrentSuite()->getName().'</div>';
 
         return $print;
-
     }
 
     /**
      * Renders after a suite.
+     *
      * @param object : BehatHTMLFormatter object
-     * @return string  : HTML generated
+     *
+     * @return string : HTML generated
      */
     public function renderAfterSuite($obj)
     {
@@ -156,12 +162,13 @@ class Behat2Renderer implements RendererInterface {
 
     /**
      * Renders before a feature.
+     *
      * @param object : BehatHTMLFormatter object
-     * @return string  : HTML generated
+     *
+     * @return string : HTML generated
      */
     public function renderBeforeFeature($obj)
     {
-
         //feature head
         $print = '
         <div class="feature">
@@ -171,7 +178,7 @@ class Behat2Renderer implements RendererInterface {
             </h2>
             <p>'.$obj->getCurrentFeature()->getDescription().'</p>
             <ul class="tags">';
-        foreach($obj->getCurrentFeature()->getTags() as $tag) {
+        foreach ($obj->getCurrentFeature()->getTags() as $tag) {
             $print .= '
                 <li>@'.$tag.'</li>';
         }
@@ -185,8 +192,10 @@ class Behat2Renderer implements RendererInterface {
 
     /**
      * Renders after a feature.
+     *
      * @param object : BehatHTMLFormatter object
-     * @return string  : HTML generated
+     *
+     * @return string : HTML generated
      */
     public function renderAfterFeature($obj)
     {
@@ -195,7 +204,7 @@ class Behat2Renderer implements RendererInterface {
             <div class="featureResult '.$obj->getCurrentFeature()->getPassedClass().'">Feature has '.$obj->getCurrentFeature()->getPassedClass();
 
         //percent only if failed scenarios
-        if($obj->getCurrentFeature()->getTotalAmountOfScenarios() > 0 && $obj->getCurrentFeature()->getPassedClass() === 'failed') {
+        if ($obj->getCurrentFeature()->getTotalAmountOfScenarios() > 0 && $obj->getCurrentFeature()->getPassedClass() === 'failed') {
             $print .= '
                 <span>Scenarios passed : '.round($obj->getCurrentFeature()->getPercentPassed(), 2).'%,
                 Scenarios failed : '.round($obj->getCurrentFeature()->getPercentFailed(), 2).'%</span>';
@@ -210,8 +219,10 @@ class Behat2Renderer implements RendererInterface {
 
     /**
      * Renders before a scenario.
+     *
      * @param object : BehatHTMLFormatter object
-     * @return string  : HTML generated
+     *
+     * @return string : HTML generated
      */
     public function renderBeforeScenario($obj)
     {
@@ -219,7 +230,7 @@ class Behat2Renderer implements RendererInterface {
         $print = '
             <div class="scenario">
                 <ul class="tags">';
-        foreach($obj->getCurrentScenario()->getTags() as $tag) {
+        foreach ($obj->getCurrentScenario()->getTags() as $tag) {
             $print .= '
                     <li>@'.$tag.'</li>';
         }
@@ -240,8 +251,10 @@ class Behat2Renderer implements RendererInterface {
 
     /**
      * Renders after a scenario.
+     *
      * @param object : BehatHTMLFormatter object
-     * @return string  : HTML generated
+     *
+     * @return string : HTML generated
      */
     public function renderAfterScenario($obj)
     {
@@ -254,16 +267,18 @@ class Behat2Renderer implements RendererInterface {
 
     /**
      * Renders before an outline.
+     *
      * @param object : BehatHTMLFormatter object
-     * @return string  : HTML generated
+     *
+     * @return string : HTML generated
      */
     public function renderBeforeOutline($obj)
     {
-         //scenario head
+        //scenario head
         $print = '
             <div class="scenario">
                 <ul class="tags">';
-        foreach($obj->getCurrentScenario()->getTags() as $tag) {
+        foreach ($obj->getCurrentScenario()->getTags() as $tag) {
             $print .= '
                     <li>@'.$tag.'</li>';
         }
@@ -284,8 +299,10 @@ class Behat2Renderer implements RendererInterface {
 
     /**
      * Renders after an outline.
+     *
      * @param object : BehatHTMLFormatter object
-     * @return string  : HTML generated
+     *
+     * @return string : HTML generated
      */
     public function renderAfterOutline($obj)
     {
@@ -294,12 +311,13 @@ class Behat2Renderer implements RendererInterface {
 
     /**
      * Renders before a step.
+     *
      * @param object : BehatHTMLFormatter object
-     * @return string  : HTML generated
+     *
+     * @return string : HTML generated
      */
     public function renderBeforeStep($obj)
     {
-
         return '';
     }
 
@@ -307,41 +325,49 @@ class Behat2Renderer implements RendererInterface {
      * Renders TableNode arguments.
      *
      * @param TableNode $table
-     * @return string  : HTML generated
+     *
+     * @return string : HTML generated
      */
-    public function renderTableNode(TableNode $table){
+    public function renderTableNode(TableNode $table)
+    {
         $arguments = '<table class="argument"> <thead>';
         $header = $table->getRow(0);
         $arguments .= $this->preintTableRows($header);
-        
+
         $arguments .= '</thead><tbody>';
         foreach ($table->getHash() as $row) {
             $arguments .= $this->preintTableRows($row);
         }
-        
+
         $arguments .= '</tbody></table>';
+
         return $arguments;
     }
-    
+
     /**
      * Renders table rows.
      *
      * @param array $row
-     * @return string  : HTML generated
+     *
+     * @return string : HTML generated
      */
-    public function preintTableRows($row){
+    public function preintTableRows($row)
+    {
         $return = '<tr class="row">';
         foreach ($row as $column) {
-            $return .= '<td>' . htmlentities($column) . '</td>';
+            $return .= '<td>'.htmlentities($column).'</td>';
         }
         $return .= '</tr>';
+
         return $return;
     }
-    
+
     /**
      * Renders after a step.
+     *
      * @param object : BehatHTMLFormatter object
-     * @return string  : HTML generated
+     *
+     * @return string : HTML generated
      */
     public function renderAfterStep($obj)
     {
@@ -353,52 +379,51 @@ class Behat2Renderer implements RendererInterface {
 
         //path displayed only if available (it's not available in undefined steps)
         $strPath = '';
-        if($step->getDefinition() !== null) {
+        if ($step->getDefinition() !== null) {
             $strPath = $step->getDefinition()->getPath();
         }
 
         $stepResultClass = '';
-        if($step->isPassed()) {
+        if ($step->isPassed()) {
             $stepResultClass = 'passed';
         }
-        if($step->isFailed()) {
+        if ($step->isFailed()) {
             $stepResultClass = 'failed';
         }
-        if($step->isSkipped()) {
+        if ($step->isSkipped()) {
             $stepResultClass = 'skipped';
         }
-        if($step->isPending()) {
+        if ($step->isPending()) {
             $stepResultClass = 'pending';
         }
 
-        $arguments ='';
+        $arguments = '';
         $argumentType = $step->getArgumentType();
-        
-        if($argumentType == "PyString"){
-            $arguments = '<br><pre class="argument">' . htmlentities($step->getArguments()) . '</pre>';
+
+        if ($argumentType == 'PyString') {
+            $arguments = '<br><pre class="argument">'.htmlentities($step->getArguments()).'</pre>';
         }
-        
-        if ($argumentType == 'Table'){
-            $arguments =  '<br><pre class="argument">' . $this->renderTableNode($step->getArguments()) . '</pre>';
+
+        if ($argumentType == 'Table') {
+            $arguments = '<br><pre class="argument">'.$this->renderTableNode($step->getArguments()).'</pre>';
         }
-        
+
         $print = '
                     <li class="'.$stepResultClass.'">
                         <div class="step">
                             <span class="keyword">'.$step->getKeyWord().' </span>
                             <span class="text">'.htmlentities($step->getText()).' </span>
                             <span class="path">'.$strPath.'</span>'
-                            . $arguments . '
+                            .$arguments.'
                         </div>';
         $exception = $step->getException();
-        if(!empty($exception)) {
-            $relativeScreenshotPath = 'assets/screenshots/' . $feature->getScreenshotFolder() . '/' . $scenario->getScreenshotName();
-            $fullScreenshotPath = $obj->getOutputPath() . '/' . $relativeScreenshotPath;
+        if (!empty($exception)) {
+            $relativeScreenshotPath = 'assets/screenshots/'.$feature->getScreenshotFolder().'/'.$scenario->getScreenshotName();
+            $fullScreenshotPath = $obj->getOutputPath().'/'.$relativeScreenshotPath;
             $print .= '
                         <pre class="backtrace">'.$step->getException().'</pre>';
-            if(file_exists($fullScreenshotPath))
-            {
-                $print .= '<a href="' . $relativeScreenshotPath . '">Screenshot</a>';
+            if (file_exists($fullScreenshotPath)) {
+                $print .= '<a href="'.$relativeScreenshotPath.'">Screenshot</a>';
             }
         }
         $print .= '
@@ -408,12 +433,12 @@ class Behat2Renderer implements RendererInterface {
     }
 
     /**
-     * To include CSS
-     * @return string  : HTML generated
+     * To include CSS.
+     *
+     * @return string : HTML generated
      */
     public function getCSS()
     {
-
         return "<style type='text/css'>
                 body {
                     margin:0px;
@@ -736,16 +761,15 @@ class Behat2Renderer implements RendererInterface {
                     border-left:none;
                 }
             </style>";
-
     }
 
     /**
-     * To include JS
-     * @return string  : HTML generated
+     * To include JS.
+     *
+     * @return string : HTML generated
      */
     public function getJS()
     {
-
         return "<script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jquery/1.6.3/jquery.min.js'></script>
         <script type='text/javascript'>
             $(document).ready(function(){
@@ -845,6 +869,5 @@ class Behat2Renderer implements RendererInterface {
                     });
             });
         </script>";
-
     }
 }

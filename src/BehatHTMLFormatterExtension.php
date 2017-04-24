@@ -1,6 +1,6 @@
 <?php
 
-namespace emuse\BehatHTMLFormatter;
+namespace Samnela\BehatHTMLFormatter;
 
 use Behat\Testwork\ServiceContainer\Extension as ExtensionInterface;
 use Behat\Testwork\ServiceContainer\ExtensionManager;
@@ -9,18 +9,19 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 
 /**
- * Class BehatHTMLFormatterExtension
- * @package Features\Formatter
+ * Class BehatHTMLFormatterExtension.
  */
-class BehatHTMLFormatterExtension implements ExtensionInterface {
-  /**
+class BehatHTMLFormatterExtension implements ExtensionInterface
+{
+    /**
    * You can modify the container here before it is dumped to PHP code.
    *
    * @param ContainerBuilder $container
    *
    * @api
    */
-  public function process(ContainerBuilder $container) {
+  public function process(ContainerBuilder $container)
+  {
   }
 
   /**
@@ -28,8 +29,9 @@ class BehatHTMLFormatterExtension implements ExtensionInterface {
    *
    * @return string
    */
-  public function getConfigKey() {
-    return "emusehtml";
+  public function getConfigKey()
+  {
+      return 'emusehtml';
   }
 
   /**
@@ -42,7 +44,8 @@ class BehatHTMLFormatterExtension implements ExtensionInterface {
    *
    * @param ExtensionManager $extensionManager
    */
-  public function initialize(ExtensionManager $extensionManager) {
+  public function initialize(ExtensionManager $extensionManager)
+  {
   }
 
   /**
@@ -50,32 +53,34 @@ class BehatHTMLFormatterExtension implements ExtensionInterface {
    *
    * @param ArrayNodeDefinition $builder
    */
-  public function configure(ArrayNodeDefinition $builder) {
-    $builder->children()->scalarNode("name")->defaultValue("emusehtml");
-    $builder->children()->scalarNode("renderer")->defaultValue("Twig");
-    $builder->children()->scalarNode("file_name")->defaultValue("generated");
-    $builder->children()->scalarNode("print_args")->defaultValue("false");
-    $builder->children()->scalarNode("print_outp")->defaultValue("false");
-    $builder->children()->scalarNode("loop_break")->defaultValue("false");
+  public function configure(ArrayNodeDefinition $builder)
+  {
+      $builder->children()->scalarNode('name')->defaultValue('emusehtml');
+      $builder->children()->scalarNode('renderer')->defaultValue('Twig');
+      $builder->children()->scalarNode('file_name')->defaultValue('generated');
+      $builder->children()->scalarNode('print_args')->defaultValue('false');
+      $builder->children()->scalarNode('print_outp')->defaultValue('false');
+      $builder->children()->scalarNode('loop_break')->defaultValue('false');
   }
 
   /**
    * Loads extension services into temporary container.
    *
    * @param ContainerBuilder $container
-   * @param array $config
+   * @param array            $config
    */
-  public function load(ContainerBuilder $container, array $config) {
-    $definition = new Definition("emuse\\BehatHTMLFormatter\\Formatter\\BehatHTMLFormatter");
-    $definition->addArgument($config['name']);
-    $definition->addArgument($config['renderer']);
-    $definition->addArgument($config['file_name']);
-    $definition->addArgument($config['print_args']);
-    $definition->addArgument($config['print_outp']);
-    $definition->addArgument($config['loop_break']);
+  public function load(ContainerBuilder $container, array $config)
+  {
+      $definition = new Definition('Samnela\\BehatHTMLFormatter\\Formatter\\BehatHTMLFormatter');
+      $definition->addArgument($config['name']);
+      $definition->addArgument($config['renderer']);
+      $definition->addArgument($config['file_name']);
+      $definition->addArgument($config['print_args']);
+      $definition->addArgument($config['print_outp']);
+      $definition->addArgument($config['loop_break']);
 
-    $definition->addArgument('%paths.base%');
-    $container->setDefinition("html.formatter", $definition)
-      ->addTag("output.formatter");
+      $definition->addArgument('%paths.base%');
+      $container->setDefinition('html.formatter', $definition)
+      ->addTag('output.formatter');
   }
 }

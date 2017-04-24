@@ -1,6 +1,6 @@
 <?php
 
-namespace emuse\BehatHTMLFormatter\Formatter;
+namespace Samnela\BehatHTMLFormatter\Formatter;
 
 use Behat\Behat\EventDispatcher\Event\AfterFeatureTested;
 use Behat\Behat\EventDispatcher\Event\AfterOutlineTested;
@@ -18,19 +18,18 @@ use Behat\Testwork\EventDispatcher\Event\BeforeExerciseCompleted;
 use Behat\Testwork\EventDispatcher\Event\BeforeSuiteTested;
 use Behat\Testwork\Output\Formatter;
 use Behat\Testwork\Output\Printer\OutputPrinter;
-use emuse\BehatHTMLFormatter\Classes\Feature;
-use emuse\BehatHTMLFormatter\Classes\Scenario;
-use emuse\BehatHTMLFormatter\Classes\Step;
-use emuse\BehatHTMLFormatter\Classes\Suite;
-use emuse\BehatHTMLFormatter\Printer\FileOutputPrinter;
-use emuse\BehatHTMLFormatter\Renderer\BaseRenderer;
+use Samnela\BehatHTMLFormatter\Classes\Feature;
+use Samnela\BehatHTMLFormatter\Classes\Scenario;
+use Samnela\BehatHTMLFormatter\Classes\Step;
+use Samnela\BehatHTMLFormatter\Classes\Suite;
+use Samnela\BehatHTMLFormatter\Printer\FileOutputPrinter;
+use Samnela\BehatHTMLFormatter\Renderer\BaseRenderer;
 
 /**
- * Class BehatHTMLFormatter
- * @package tests\features\formatter
+ * Class BehatHTMLFormatter.
  */
-class BehatHTMLFormatter implements Formatter {
-
+class BehatHTMLFormatter implements Formatter
+{
     //<editor-fold desc="Variables">
     /**
      * @var array
@@ -53,47 +52,52 @@ class BehatHTMLFormatter implements Formatter {
     private $memory;
 
     /**
-     * @param String $outputPath where to save the generated report file
+     * @param string $outputPath where to save the generated report file
      */
     private $outputPath;
 
     /**
-     * @param String $base_path Behat base path
+     * @param string $base_path Behat base path
      */
     private $base_path;
 
     /**
-     * Printer used by this Formatter
+     * Printer used by this Formatter.
+     *
      * @param $printer OutputPrinter
      */
     private $printer;
 
     /**
-     * Renderer used by this Formatter
+     * Renderer used by this Formatter.
+     *
      * @param $renderer BaseRenderer
      */
     private $renderer;
 
     /**
-     * Flag used by this Formatter
+     * Flag used by this Formatter.
+     *
      * @param $print_args boolean
      */
     private $print_args;
 
     /**
-     * Flag used by this Formatter
+     * Flag used by this Formatter.
+     *
      * @param $print_outp boolean
      */
     private $print_outp;
 
     /**
-     * Flag used by this Formatter
+     * Flag used by this Formatter.
+     *
      * @param $loop_break boolean
      */
     private $loop_break;
 
     /**
-     * @var Array
+     * @var array
      */
     private $suites;
 
@@ -160,11 +164,12 @@ class BehatHTMLFormatter implements Formatter {
     //</editor-fold>
 
     //<editor-fold desc="Formatter functions">
+
     /**
      * @param $name
      * @param $base_path
      */
-    function __construct($name, $renderer, $filename, $print_args, $print_outp, $loop_break, $base_path)
+    public function __construct($name, $renderer, $filename, $print_args, $print_outp, $loop_break, $base_path)
     {
         $this->name = $name;
         $this->base_path = $base_path;
@@ -179,27 +184,29 @@ class BehatHTMLFormatter implements Formatter {
 
     /**
      * Returns an array of event names this subscriber wants to listen to.
+     *
      * @return array The event names to listen to
      */
     public static function getSubscribedEvents()
     {
         return array(
             'tester.exercise_completed.before' => 'onBeforeExercise',
-            'tester.exercise_completed.after'  => 'onAfterExercise',
-            'tester.suite_tested.before'       => 'onBeforeSuiteTested',
-            'tester.suite_tested.after'        => 'onAfterSuiteTested',
-            'tester.feature_tested.before'     => 'onBeforeFeatureTested',
-            'tester.feature_tested.after'      => 'onAfterFeatureTested',
-            'tester.scenario_tested.before'    => 'onBeforeScenarioTested',
-            'tester.scenario_tested.after'     => 'onAfterScenarioTested',
-            'tester.outline_tested.before'     => 'onBeforeOutlineTested',
-            'tester.outline_tested.after'      => 'onAfterOutlineTested',
-            'tester.step_tested.after'         => 'onAfterStepTested',
+            'tester.exercise_completed.after' => 'onAfterExercise',
+            'tester.suite_tested.before' => 'onBeforeSuiteTested',
+            'tester.suite_tested.after' => 'onAfterSuiteTested',
+            'tester.feature_tested.before' => 'onBeforeFeatureTested',
+            'tester.feature_tested.after' => 'onAfterFeatureTested',
+            'tester.scenario_tested.before' => 'onBeforeScenarioTested',
+            'tester.scenario_tested.after' => 'onAfterScenarioTested',
+            'tester.outline_tested.before' => 'onBeforeOutlineTested',
+            'tester.outline_tested.after' => 'onAfterOutlineTested',
+            'tester.step_tested.after' => 'onAfterStepTested',
         );
     }
 
     /**
      * Returns formatter name.
+     *
      * @return string
      */
     public function getName()
@@ -217,15 +224,17 @@ class BehatHTMLFormatter implements Formatter {
 
     /**
      * Returns formatter description.
+     *
      * @return string
      */
     public function getDescription()
     {
-        return "Formatter for teamcity";
+        return 'Formatter for teamcity';
     }
 
     /**
      * Returns formatter output printer.
+     *
      * @return OutputPrinter
      */
     public function getOutputPrinter()
@@ -235,27 +244,31 @@ class BehatHTMLFormatter implements Formatter {
 
     /**
      * Sets formatter parameter.
+     *
      * @param string $name
-     * @param mixed $value
+     * @param mixed  $value
      */
     public function setParameter($name, $value)
     {
-        $this->parameters[ $name ] = $value;
+        $this->parameters[$name] = $value;
     }
 
     /**
      * Returns parameter name.
+     *
      * @param string $name
+     *
      * @return mixed
      */
     public function getParameter($name)
     {
-        return $this->parameters[ $name ];
+        return $this->parameters[$name];
     }
 
     /**
-     * Returns output path
-     * @return String output path
+     * Returns output path.
+     *
+     * @return string output path
      */
     public function getOutputPath()
     {
@@ -263,8 +276,9 @@ class BehatHTMLFormatter implements Formatter {
     }
 
     /**
-     * Returns if it should print the step arguments
-     * @return boolean
+     * Returns if it should print the step arguments.
+     *
+     * @return bool
      */
     public function getPrintArguments()
     {
@@ -272,8 +286,9 @@ class BehatHTMLFormatter implements Formatter {
     }
 
     /**
-     * Returns if it should print the step outputs
-     * @return boolean
+     * Returns if it should print the step outputs.
+     *
+     * @return bool
      */
     public function getPrintOutputs()
     {
@@ -281,8 +296,9 @@ class BehatHTMLFormatter implements Formatter {
     }
 
     /**
-     * Returns if it should print scenario loop break
-     * @return boolean
+     * Returns if it should print scenario loop break.
+     *
+     * @return bool
      */
     public function getPrintLoopBreak()
     {
@@ -363,9 +379,11 @@ class BehatHTMLFormatter implements Formatter {
     {
         return $this->skippedSteps;
     }
+
     //</editor-fold>
 
     //<editor-fold desc="Event functions">
+
     /**
      * @param BeforeExerciseCompleted $event
      */
@@ -382,7 +400,6 @@ class BehatHTMLFormatter implements Formatter {
      */
     public function onAfterExercise(AfterExerciseCompleted $event)
     {
-
         $this->timer->stop();
 
         $print = $this->renderer->renderAfterExercise($this);
@@ -419,7 +436,7 @@ class BehatHTMLFormatter implements Formatter {
     {
         $feature = new Feature();
         $feature->setId($this->featureCounter);
-        $this->featureCounter++;
+        ++$this->featureCounter;
         $feature->setName($event->getFeature()->getTitle());
         $feature->setDescription($event->getFeature()->getDescription());
         $feature->setTags($event->getFeature()->getTags());
@@ -437,7 +454,7 @@ class BehatHTMLFormatter implements Formatter {
     public function onAfterFeatureTested(AfterFeatureTested $event)
     {
         $this->currentSuite->addFeature($this->currentFeature);
-        if($this->currentFeature->allPassed()) {
+        if ($this->currentFeature->allPassed()) {
             $this->passedFeatures[] = $this->currentFeature;
         } else {
             $this->failedFeatures[] = $this->currentFeature;
@@ -470,7 +487,7 @@ class BehatHTMLFormatter implements Formatter {
     {
         $scenarioPassed = $event->getTestResult()->isPassed();
 
-        if($scenarioPassed) {
+        if ($scenarioPassed) {
             $this->passedScenarios[] = $this->currentScenario;
             $this->currentFeature->addPassedScenario();
         } else {
@@ -508,7 +525,7 @@ class BehatHTMLFormatter implements Formatter {
     {
         $scenarioPassed = $event->getTestResult()->isPassed();
 
-        if($scenarioPassed) {
+        if ($scenarioPassed) {
             $this->passedScenarios[] = $this->currentScenario;
             $this->currentFeature->addPassedScenario();
         } else {
@@ -548,28 +565,28 @@ class BehatHTMLFormatter implements Formatter {
         $step->setResult($result);
         $step->setResultCode($result->getResultCode());
 
-        if ($event->getStep()->hasArguments()){
+        if ($event->getStep()->hasArguments()) {
             $object = $this->getObject($event->getStep()->getArguments());
             $step->setArgumentType($object->getNodeType());
             $step->setArguments($object);
         }
 
         //What is the result of this step ?
-        if(is_a($result, 'Behat\Behat\Tester\Result\UndefinedStepResult')) {
+        if (is_a($result, 'Behat\Behat\Tester\Result\UndefinedStepResult')) {
             //pending step -> no definition to load
             $this->pendingSteps[] = $step;
         } else {
-            if(is_a($result, 'Behat\Behat\Tester\Result\SkippedStepResult')) {
+            if (is_a($result, 'Behat\Behat\Tester\Result\SkippedStepResult')) {
                 //skipped step
-                /** @var ExecutedStepResult $result */
+                /* @var ExecutedStepResult $result */
                 $step->setDefinition($result->getStepDefinition());
                 $this->skippedSteps[] = $step;
             } else {
                 //failed or passed
-                if($result instanceof ExecutedStepResult) {
+                if ($result instanceof ExecutedStepResult) {
                     $step->setDefinition($result->getStepDefinition());
                     $exception = $result->getException();
-                    if($exception) {
+                    if ($exception) {
                         $step->setException($exception->getMessage());
                         $this->failedSteps[] = $step;
                     } else {
@@ -585,13 +602,15 @@ class BehatHTMLFormatter implements Formatter {
         $print = $this->renderer->renderAfterStep($this);
         $this->printer->writeln($print);
     }
+
     //</editor-fold>
 
     /**
      * @param $arguments
      */
-    public function getObject($arguments){
-        foreach ($arguments as $argument => $args){
+    public function getObject($arguments)
+    {
+        foreach ($arguments as $argument => $args) {
             return $args;
         }
     }

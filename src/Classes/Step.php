@@ -1,12 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: nealv
- * Date: 05/01/15
- * Time: 14:39
- */
 
-namespace emuse\BehatHTMLFormatter\Classes;
+namespace Samnela\BehatHTMLFormatter\Classes;
 
 use Behat\Behat\Tester\Result\StepResult;
 
@@ -62,7 +56,7 @@ class Step
     {
         return $this->argumentType;
     }
-    
+
     /**
      * @param mixed $arguments
      */
@@ -70,7 +64,7 @@ class Step
     {
         $this->argumentType = $argumentType;
     }
-    
+
     /**
      * @return mixed
      */
@@ -182,32 +176,32 @@ class Step
     {
         $this->resultCode = $resultCode;
     }
-    
-     /**
+
+    /**
      * @return bool
      */
     public function isPassed()
     {
         return $this->resultCode == StepResult::PASSED;
     }
-    
-     /**
+
+    /**
      * @return bool
      */
     public function isSkipped()
     {
         return $this->resultCode == StepResult::SKIPPED;
     }
-    
-     /**
+
+    /**
      * @return bool
      */
     public function isPending()
     {
-        return ($this->resultCode == StepResult::PENDING || $this->resultCode == StepResult::UNDEFINED);
+        return $this->resultCode == StepResult::PENDING || $this->resultCode == StepResult::UNDEFINED;
     }
-    
-     /**
+
+    /**
      * @return bool
      */
     public function isFailed()

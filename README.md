@@ -77,7 +77,7 @@ default:
       output_path: %paths.base%/build/html/behat
 
   extensions:
-    samnela\BehatHTMLFormatter\BehatHTMLFormatterExtension:
+    Samnela\BehatHTMLFormatter\BehatHTMLFormatterExtension:
       name: html
       renderer: Twig,Behat2
       file_name: index
