@@ -1,25 +1,38 @@
 {
     "name": "samnela/behat-html-formatter",
     "description": "This will create a html formatter for Behat.",
+    "licence": "MIT",
+    "type": "library",
     "authors": [
+        {
+            "name": "Neal Vanmeert",
+            "email": "neal@emuse.be"
+        },
         {
             "name": "Samuel NELA",
             "email": "hello@samnela.com"
         }
+
     ],
     "require": {
         "php": ">=5.5.0",
-        "twig/twig":"^1.0||^2.0",
+        "twig/twig": "^1.0||^2.0",
         "behat/behat": "~3.0",
         "behat/gherkin": "~4.2"
     },
     "require-dev": {
         "symfony/process": ">2.3,<4.0",
-        "phpunit/phpunit": "~4.1"
+        "phpunit/phpunit": "5.6.*"
     },
     "autoload": {
         "psr-4": {
             "Samnela\\BehatHTMLFormatter\\": "src/"
         }
-    }
+    },
+    "autoload-dev":
+            {
+                "psr-4": {
+                    "Tests\\": "tests/"
+                }
+            }
 }
