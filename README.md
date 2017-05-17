@@ -169,4 +169,6 @@ When you need additional support or you discover something *strange*, feel free 
 
 ## License and Authors
 
-Authors: https://github.com/dutchiexl/BehatHtmlFormatterPlugin/contributors
+This plugin under the MIT license
+
+this is a fork from https://github.com/dutchiexl/BehatHtmlFormatterPlugin
